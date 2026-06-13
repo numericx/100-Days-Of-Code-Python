@@ -1,153 +1,104 @@
-# OpenCode
+This repository contains the code for the [100 Days of Code: The Complete Python Pro Bootcamp](https://www.udemy.com/course/100-days-of-code/) on Udemy.
 
-OpenCode is an AI-powered coding assistant that helps developers with software engineering tasks through an interactive command-line interface.
-
-## Overview
-
-OpenCode provides intelligent assistance for software development tasks including:
-- Bug fixing and code debugging
-- Feature implementation and refactoring
-- Code explanation and documentation
-- Testing and quality assurance
-- Project setup and configuration guidance
-- API design and database modeling
-- Performance profiling and optimization
-- Environment and CI/CD configuration
-- Security auditing
-
-## Key Features
-
-- **Intelligent Code Assistance**: Leverages advanced AI models to understand and generate code
-- **Interactive CLI**: Provides a conversational interface for coding tasks
-- **Multi-tool Support**: Integrates with bash, file system operations, and development workflows
-- **Context-Aware**: Understands codebase structure and conventions to provide relevant suggestions
-- **Security Focused**: Includes permission controls to protect sensitive files and operations
-
-## Configuration
-
-The repository includes configuration files that define:
-- Permission controls for file access, editing, and bash commands (`opencode.json`)
-- Behavioral guidelines for AI coding assistance (`AGENTS.md`)
-- Python development best practices reference (`python-research.md`)
-- 14 specialized subagents for Python development (`.opencode/agents/`)
-- A router agent (`@help`) that delegates to the right subagent
-- Frontend design skills for creating distinctive user interfaces
-
-## Getting Started
-
-1. Install dependencies:
-   ```bash
-   npm install @opencode-ai/plugin
-   ```
-
-2. Configure permissions in `opencode.json` according to your security requirements
-
-3. Run OpenCode to start interacting with the AI coding assistant
-
-## Python Development Agents
-
-OpenCode ships with specialized Python subagents that encapsulate modern Python tooling (uv, ruff, mypy, pytest, mkdocs):
-
-| Agent | Invoke with | Role |
-|-------|-------------|------|
-| **@ask** | `@ask how does this function work?` | Answer questions and explain code — strictly read-only, no changes ever |
-| **@review** | `@review src/myproject` | Full-stack code review: lint, types, tests, security, architecture, and design — read-only |
-| **@fix** | `@fix` (paste code or copy to clipboard) | Debug logic, syntax, and runtime errors — reads from clipboard or inline context, shows fixed code — read-only |
-| **@refactor** | `@refactor src/client.py` | Restructure code: extract functions, rename symbols, reduce duplication, split modules |
-| **@api** | `@api add user endpoints` | Design and generate FastAPI endpoints, Pydantic schemas, validation, OpenAPI docs |
-| **@db** | `@db create User model` | SQLAlchemy models, Alembic migrations, query optimization, schema design |
-| **@perf** | `@perf profile the API` | Profile with cProfile/memory_profiler, identify bottlenecks, apply optimizations |
-| **@scaffold** | `@scaffold set up a new project` | Initialize projects with uv, manage dependencies, create `src/` layout, configure `pyproject.toml` |
-| **@quality** | `@quality fix linting issues` | Configure and run ruff (lint + format), mypy type checking, pre-commit hooks |
-| **@test** | `@test write tests for the API` | Set up pytest, write tests, manage coverage, run deptry dependency checks |
-| **@docs** | `@docs set up mkdocs` | Configure MkDocs Material or Sphinx, enforce docstring conventions, maintain README |
-| **@env** | `@env set up Docker` | Docker, docker-compose, devcontainer, environment variable management |
-| **@cicd** | `@cicd add a CI pipeline` | Create GitHub Actions workflows, Dockerfiles, PyPI publish with trusted publishers |
-| **@security** | `@security audit the codebase` | Run ruff S-rules, pip-audit, and bandit (read-only — reports findings, never edits) |
-
-Each agent embeds the `python-research.md` guidelines and `AGENTS.md` behavioral rules directly in its prompt, and has per-role restricted permissions (e.g., @security is read-only, @docs only edits documentation files).
-
-### @help — Agent Router
-
-The **@help** agent is a meta-agent that routes your request to the right specialized agent:
-
-| `@help fix this bug` | → `@fix` |
-| `@help set up a database` | → `@db` |
-| `@help what can you do?` | → lists all agents and their roles |
-
-### Agent Chaining
-
-Agents can delegate to each other for end-to-end workflows. Common chains:
-
-```
-@scaffold → @quality → @test → @docs → @cicd → @security
-@api → @db → @test → @perf
-@fix → @test
-@refactor → @test → @quality
-@env → @cicd
-```
-
-For example: `@scaffold` creates the project, then suggests running `@quality` (configure linting), `@test` (write tests), `@docs` (set up docs), `@cicd` (add CI), and `@security` (audit).
-
-## Creating Custom Agents
-
-Agents are markdown files in `.opencode/agents/`. Each file has two parts:
-
-### Frontmatter
-
-```yaml
----
-description: One-line summary of what the agent does.
-mode: subagent           # always "subagent"
-color: primary           # primary | success | warning | error | accent
-permission:
-  edit:                  # file edit permissions
-    "*": "ask"           # ask before editing any file
-    "src/**": "allow"    # auto-allow edits under src/
-    ".env": "deny"       # never touch .env files
-  bash:                  # bash command permissions
-    "ruff *": "allow"    # auto-allow ruff commands
-    "*": "ask"           # ask before anything else
-  todowrite: deny        # deny todo list management
-  question: allow        # allow asking clarifying questions
-  webfetch: allow        # allow fetching web URLs
-  task: allow            # allow delegating to other agents
----
-```
-
-### Body
-
-The body is markdown that gets injected into the agent's system prompt. Use behavioral guidelines and workflow instructions, modeled after the existing agents.
-
-### Permission Reference
-
-| Permission | Values | Description |
-|-----------|--------|-------------|
-| `edit` | `deny`, `"*": "allow"`, `"src/**": "allow"` | Glob patterns for file edit access |
-| `bash` | `"*": "ask"`, `"ruff *": "allow"` | Glob patterns for bash command approval |
-| `todowrite` | `allow` / `deny` | Can manage the todo list |
-| `question` | `allow` / `deny` | Can ask clarifying questions |
-| `webfetch` | `allow` / `deny` | Can fetch web URLs |
-| `task` | `allow` / `deny` | Can delegate to other agents via the task tool |
-
-## Security
-
-OpenCode includes granular permission controls to ensure safe operation:
-- File read/write permissions with specific allow/deny patterns
-- Controlled bash command execution with predefined rules
-- External directory access restrictions
-- Web access controls
-
-These controls help prevent unauthorized access to sensitive files and system resources.
-
-## Contributing
-
-Contributions are welcome! Please read our guidelines in `AGENTS.md` which outline our approach to:
-- Thoughtful coding practices
-- Simplicity in implementation
-- Surgical changes to codebases
-- Goal-driven execution
-
-## License
-
-This project is licensed under the terms specified in the LICENSE file.
+| Day | Topic |
+|-----|-------|
+| 01 | Working with variables in Python to Manage Data |
+| 02 | Understanding Data types and How to Manipulate Strings |
+| 03 | Control Flow and Logical Operators |
+| 04 | Randomisation and Python Lists |
+| 05 | Python Loops |
+| 06 | Python Functions & Karel |
+| 07 | Hangman |
+| 08 | Function Parameters & Caesar Cipher |
+| 09 | Dictionaries, Nesting and the Secret Auction |
+| 10 | Functions with Outputs |
+| 11 | The Blackjack Capstone Project |
+| 12 | Scope & Number Guessing Game |
+| 13 | Debugging |
+| 14 | Higher Lower Game Project |
+| 15 | Local Development Environment Setup & The Coffee Machine |
+| 16 | Object Oriented Programming (OOP) |
+| 17 | The Quiz Project & The Benefits of OOP |
+| 18 | Turtle & The Graphical User Interface (GUI) |
+| 19 | Instances, State and Higher Order Functions |
+| 20 | Build the Snake Game Part I - Animation & Coordinates |
+| 21 | Build the Snake Game Part II - Inheritance & List Slicing |
+| 22 | Build Pong: The Famous Arcade Game |
+| 23 | The Turtle Crossing Capstone Project |
+| 24 | Files, Directories and Paths |
+| 25 | Working with CSV Data and the Pandas Library |
+| 26 | List Comprehension and the NATO Alphabet |
+| 27 | Tkinter, *args, **kwargs and creating GUI Programs |
+| 28 | Tkinter, Dynamic Typing and the Pomodoro GUI Application |
+| 29 | Building a Password Manager GUI App with Tkinter |
+| 30 | Errors, Exceptions and JSON Data - Improving the Password |
+| 31 | Flash Card App Capstone Project |
+| 32 | Send Email & Manage Dates |
+| 33 | API Endpoints & API Parameters - ISS Overhead Notifier |
+| 34 | API Practice - Creating a GUI Quiz App |
+| 35 | Keys, Authentication & Environment Variables - Send SMS |
+| 36 | Stock Trading News Alert Project |
+| 37 | Habit Tracking Project - API Post Requests & Headers |
+| 38 | Workout Tracking Using Google Sheets |
+| 39 | Capstone Part I - Flight Deal Finder |
+| 40 | Capstone Part II - Flight Club |
+| 41 | Web Foundation - Introduction to HTML |
+| 42 | Web Foundation - Intermediate HTML |
+| 43 | Web Foundation - Introduction to CSS |
+| 44 | Web Foundation - Intermediate CSS |
+| 45 | Web Scraping with Beautiful Soup |
+| 46 | Create a Spotify Playlist using the Musical Time Machine |
+| 47 | Create an Automated Price Tracker |
+| 48 | Selenium Webdriver Browser and Game Playing Bot |
+| 49 | Automating your Exercise Routine at the Gym |
+| 50 | Auto Tinder Swiping Bot |
+| 51 | Internet Speed Twitter Complain Bot |
+| 52 | Instagram Follower Bot |
+| 53 | Web Scraping Capstone - Data Entry Job Automation |
+| 54 | Introduction to Web Development with Flask |
+| 55 | HTML & URL Parsing in Flask and the Higher Lower Game |
+| 56 | Rendering HTML/Static Files and Using Website Templates |
+| 57 | Templating with Jinja in Flask Applications |
+| 58 | Web Foundation Bootstrap |
+| 59 | Blog Capstone Part II - Adding Styling |
+| 60 | Make POST Requests with Flask and HTML Forms |
+| 61 | Building Advanced Forms with Flask-WTForms |
+| 62 | Flask WTForms, Boostrap and Coffee & Wifi Project |
+| 63 | Databases with SQLite and SQLAlchemy |
+| 64 | My Top 10 Movies Website |
+| 65 | Web Design School - How to Create a Website that People will Love |
+| 66 | Building your Own API with RESTful Routing |
+| 67 | Blog Capstone Project Part III - RESTful Routing |
+| 68 | Authentication with Flask |
+| 69 | Blog Capstone Part IV - Adding Users |
+| 70 | Git, Github and Version Control |
+| 71 | Deploying your Web Application |
+| 72 | Data Exploration with Pandas - College Major vs Your Salary |
+| 73 | Data Visualization with Matplotlib - Programming Languages |
+| 74 | Aggregate & Merge Data with Pandas - Analyse the LEGO Dataset |
+| 75 | Google Trends Data - Resampling and Visualising Time Series |
+| 76 | Beautiful Plotly Charts & Analysing the Android App Store |
+| 77 | Computations with Numpy and N-Dimensional Arrays |
+| 78 | Linear Regression and Data Visualisation with Seaborn |
+| 79 | Analysing the Nobel Prize with Plotly, Matplotlib & Seaborn |
+| 80 | The Tragic Discovery of Handwashing Part I - t-tests & Distributions |
+| 81 | Capstone Project - Predicting House Prices |
+| 82 | Professional Portfolio Project - Python Scripting |
+| 83 | Professional Portfolio Project - Python Web Development |
+| 84 | Professional Portfolio Project - Python Scripting |
+| 85 | Professional Portfolio Project - GUI |
+| 86 | Professional Portfolio Project - GUI |
+| 87 | Professional Portfolio Project - Game |
+| 88 | Professional Portfolio Project - Web Development |
+| 89 | Professional Portfolio Project - Web Development |
+| 90 | Professional Portfolio Project - GUI Desktop App |
+| 91 | Professional Portfolio Project - HTTP Requests & APIs |
+| 92 | Professional Portfolio Project - Image Processing and Data Science |
+| 93 | Professional Portfolio Project - Web Scraping |
+| 94 | Professional Portfolio Project - GUI Automation |
+| 95 | Professional Portfolio Project - Game |
+| 96 | Professional Portfolio Project - HTTP Requests & APIs |
+| 97 | Professional Portfolio Project - Web Development |
+| 98 | Professional Portfolio Project - Python Automation |
+| 99 | Professional Portfolio Project - Data Science |
+| 100 | Professional Portfolio Project - Data Science |
