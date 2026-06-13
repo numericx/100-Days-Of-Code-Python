@@ -1,6 +1,6 @@
 ---
 description: Answers questions about the codebase without making any changes. Read-only.
-mode: subagent
+mode: primary
 color: info
 permission:
   edit: deny
