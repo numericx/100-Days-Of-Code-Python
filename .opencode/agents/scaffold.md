@@ -34,12 +34,238 @@ You scaffold new Python projects from scratch. When invoked, you guide the user 
 
 ---
 
-## Getting Started
+## Interactive Questionnaire (Auto-triggered)
 
-Start by asking the user for:
-- **Project name** (e.g., `my-api`, `data-tools`) — this determines the PyPI name and directory
-- **Project type**: library (`--lib`), application (`--app`), or default
-- **Whether they want dev tooling included** (ruff, mypy, pytest, etc.)
+**When the user invokes you without a detailed prompt** (e.g., just `@scaffold` or "create a project"), automatically launch this questionnaire before proceeding.
+
+### Step 1: Core Project Details (always asked)
+
+Use the `question` tool with these questions in a single call:
+
+```python
+question({
+    "questions": [
+        {
+            "question": "Project name (PyPI package name, e.g., 'my-api', 'data-tools')",
+            "header": "Name",
+            "options": [{"label": "my-project", "description": "Default placeholder"}],
+            "multiple": false
+        },
+        {
+            "question": "Project type",
+            "header": "Type",
+            "options": [
+                {"label": "Library (--lib)", "description": "Importable package, published to PyPI"},
+                {"label": "Application (--app)", "description": "Runnable app with entry points (Recommended)"},
+                {"label": "Default", "description": "No --lib/--app flag, minimal structure"}
+            ],
+            "multiple": false
+        },
+        {
+            "question": "What kind of project?",
+            "header": "Category",
+            "options": [
+                {"label": "CLI Tool", "description": "Command-line interface (Typer, Click, argparse)"},
+                {"label": "FastAPI/REST API", "description": "Async REST API with FastAPI (Recommended)"},
+                {"label": "Flask/Django Web App", "description": "Traditional web application"},
+                {"label": "Library/Package", "description": "Reusable Python library"},
+                {"label": "Data Science/ML", "description": "Jupyter, pandas, ML pipelines"},
+                {"label": "Other", "description": "Custom project type"}
+            ],
+            "multiple": false
+        }
+    ]
+})
+```
+
+### Step 2: Framework Selection (conditional on category)
+
+**If category = "CLI Tool"**, ask:
+```python
+question({
+    "questions": [{
+        "question": "CLI framework",
+        "header": "CLI",
+        "options": [
+            {"label": "Typer", "description": "Modern, type-hint based (Recommended)"},
+            {"label": "Click", "description": "Mature, widely used"},
+            {"label": "argparse", "description": "Stdlib only, no deps"}
+        ],
+        "multiple": false
+    }]
+})
+```
+
+**If category = "FastAPI/REST API"**, ask:
+```python
+question({
+    "questions": [{
+        "question": "API framework",
+        "header": "API",
+        "options": [
+            {"label": "FastAPI", "description": "Modern, fast, auto-docs (Recommended)"},
+            {"label": "FastAPI + Strawberry", "description": "Add GraphQL support"},
+            {"label": "Litestar", "description": "FastAPI alternative, type-safe"}
+        ],
+        "multiple": false
+    }]
+})
+```
+
+**If category = "Flask/Django Web App"**, ask:
+```python
+question({
+    "questions": [{
+        "question": "Web framework",
+        "header": "Framework",
+        "options": [
+            {"label": "Flask", "description": "Lightweight, flexible"},
+            {"label": "Django", "description": "Batteries-included, ORM, admin"},
+            {"label": "Quart", "description": "Async Flask-compatible"}
+        ],
+        "multiple": false
+    }]
+})
+```
+
+**Otherwise (Library, Data Science, Other)**, skip framework question.
+
+### Step 3: Database & ORM (always asked)
+
+```python
+question({
+    "questions": [
+        {
+            "question": "Database",
+            "header": "Database",
+            "options": [
+                {"label": "None", "description": "No database needed"},
+                {"label": "PostgreSQL", "description": "Production-grade relational (Recommended)"},
+                {"label": "SQLite", "description": "File-based, zero-config, dev/test"},
+                {"label": "MongoDB", "description": "Document database"},
+                {"label": "Other", "description": "MySQL, Redis, etc."}
+            ],
+            "multiple": false
+        },
+        {
+            "question": "ORM / Data Layer",
+            "header": "ORM",
+            "options": [
+                {"label": "None", "description": "Raw SQL or no database"},
+                {"label": "SQLAlchemy (async)", "description": "Modern async ORM (Recommended for FastAPI)"},
+                {"label": "SQLAlchemy (sync)", "description": "Traditional sync ORM"},
+                {"label": "Tortoise ORM", "description": "Async, Django-like"},
+                {"label": "Prisma", "description": "Type-safe ORM with codegen"},
+                {"label": "Other", "description": "Peewee, Pony, etc."}
+            ],
+            "multiple": false
+        }
+    ]
+})
+```
+
+**If database = "None"**, skip ORM question (default to "None").
+
+### Step 4: Dev Tooling Stack (always asked)
+
+```python
+question({
+    "questions": [{
+        "question": "Development tooling",
+        "header": "Tooling",
+        "options": [
+            {"label": "Minimal", "description": "pytest only"},
+            {"label": "Standard (Recommended)", "description": "pytest + ruff + mypy + pytest-cov"},
+            {"label": "Full", "description": "Standard + pre-commit + hypothesis + deptry + pip-audit"},
+            {"label": "Custom", "description": "Select individual tools"}
+        ],
+        "multiple": false
+    }]
+})
+```
+
+**If "Custom"**, ask a follow-up with multi-select:
+```python
+question({
+    "questions": [{
+        "question": "Select dev tools",
+        "header": "Custom Tools",
+        "options": [
+            {"label": "pytest", "description": "Testing framework"},
+            {"label": "ruff", "description": "Fast linter + formatter"},
+            {"label": "mypy", "description": "Static type checker"},
+            {"label": "pytest-cov", "description": "Coverage reporting"},
+            {"label": "hypothesis", "description": "Property-based testing"},
+            {"label": "deptry", "description": "Dependency checker"},
+            {"label": "pip-audit", "description": "Vulnerability scanner"},
+            {"label": "pre-commit", "description": "Git hooks"}
+        ],
+        "multiple": true
+    }]
+})
+```
+
+### Step 5: Optional Extras (always asked)
+
+```python
+question({
+    "questions": [
+        {
+            "question": "Documentation",
+            "header": "Docs",
+            "options": [
+                {"label": "MkDocs Material", "description": "Beautiful docs site (Recommended)"},
+                {"label": "None", "description": "No documentation setup"}
+            ],
+            "multiple": false
+        },
+        {
+            "question": "Containerization",
+            "header": "Docker",
+            "options": [
+                {"label": "Dockerfile only", "description": "Single container build"},
+                {"label": "Docker + docker-compose", "description": "Multi-service dev/prod"},
+                {"label": "None", "description": "No containerization"}
+            ],
+            "multiple": false
+        },
+        {
+            "question": "CI/CD Pipeline",
+            "header": "CI/CD",
+            "options": [
+                {"label": "GitHub Actions", "description": "Lint, test, build, publish (Recommended)"},
+                {"label": "None", "description": "No CI/CD setup"}
+            ],
+            "multiple": false
+        }
+    ]
+})
+```
+
+### Step 6: Build Detailed Prompt & Proceed
+
+After collecting all answers, construct a detailed prompt string and continue with the existing scaffolding workflow. Example:
+
+```
+"Create a {type} {category} project named '{name}' using {framework} with {database} and {orm}. Tooling: {tooling}. Docs: {docs}. Docker: {docker}. CI/CD: {cicd}."
+```
+
+Then proceed to **Workflow** section below.
+
+---
+
+## Getting Started (with Detailed Prompt)
+
+**If the user provides a detailed prompt** (e.g., "Create a FastAPI REST API with SQLAlchemy async, PostgreSQL, Alembic, pytest, and Docker"), skip the questionnaire and extract:
+
+- Project name
+- Project type
+- Category/framework
+- Database/ORM
+- Tooling
+- Extras
+
+Then proceed directly to the Workflow.
 
 ## Workflow
 
