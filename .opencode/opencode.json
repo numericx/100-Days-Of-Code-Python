@@ -1,0 +1,464 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "formatter": true,
+  "permission": {
+    "read": {
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.local": "deny",
+      "*.env.production": "deny",
+      "*.env.development": "deny",
+      "*.pem": "deny",
+      "*.key": "deny",
+      "*.crt": "deny",
+      "*.p12": "deny",
+      "*.pfx": "deny",
+      ".ssh/**": "deny",
+      "**/.ssh/**": "deny",
+      "**/secrets/**": "deny",
+      "**/credentials": "deny",
+      "**/credentials.*": "deny",
+      "*.env.example": "allow",
+      "*": "allow"
+    },
+    "edit": {
+      "*.env": "deny",
+      "*.env.*": "deny",
+      ".ssh/**": "deny",
+      "**/.ssh/**": "deny",
+      "**/secrets/**": "deny",
+      "*": "ask",
+      "src/**": "allow",
+      "public/**": "allow",
+      "tests/**": "allow",
+      "docs/**": "allow",
+      "*.toml": "allow",
+      "*.yml": "allow",
+      "*.yaml": "allow",
+      "Dockerfile": "allow",
+      "docker-compose*.yml": "allow",
+      ".github/**": "allow",
+      "alembic/**": "allow",
+      ".devcontainer/**": "allow",
+      ".env.example": "allow"
+    },
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git show*": "allow",
+      "git checkout*": "ask",
+      "git add*": "ask",
+      "git commit*": "ask",
+      "git push*": "ask",
+      "git pull*": "ask",
+      "git fetch*": "ask",
+      "git reset*": "deny",
+      "git rebase*": "deny",
+      "git merge*": "ask",
+      "rm *": "deny",
+      "rm -rf *": "deny",
+      "mv *": "deny",
+      "cp *": "deny",
+      "curl *": "deny",
+      "wget *": "deny",
+      "nc *": "deny",
+      "netcat *": "deny",
+      "ncat *": "deny",
+      "base64 *": "ask",
+      "chmod *": "deny",
+      "chown *": "deny",
+      "sudo *": "deny",
+      "docker *": "ask",
+      "kubectl *": "ask",
+      "export *": "deny",
+      "printenv": "deny",
+      "env": "deny",
+      "ruff *": "allow",
+      "mypy *": "allow",
+      "pytest *": "allow",
+      "uv *": "allow",
+      "python3 *": "allow",
+      "alembic *": "allow",
+      "pip-audit *": "allow",
+      "bandit *": "allow",
+      "deptry *": "allow",
+      "mkdocs *": "allow"
+    },
+    "external_directory": {
+      "*": "ask"
+    },
+    "task": "ask",
+    "skill": "ask",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "question": "allow"
+  },
+  "agent": {
+    "quality": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow",
+          "pyproject.toml": "allow",
+          "*.toml": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "api": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow"
+      }
+    },
+    "test": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow",
+          "tests/**": "allow",
+          "pyproject.toml": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "pytest *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "refactor": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "git add*": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "perf": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "python3 *": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "security": {
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "ruff *": "allow",
+          "pip-audit *": "allow",
+          "bandit *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow",
+        "webfetch": "allow"
+      }
+    },
+    "ask": {
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow",
+        "webfetch": "allow"
+      }
+    },
+    "cicd": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          ".github/**": "allow",
+          "Dockerfile": "allow",
+          "docker-compose*.yml": "allow",
+          "pyproject.toml": "allow",
+          "*.yml": "allow",
+          "*.yaml": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "docker *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "review": {
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow",
+          "pytest *": "allow",
+          "pip-audit *": "allow",
+          "bandit *": "allow",
+          "uv run *": "allow",
+          "deptry *": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow",
+        "webfetch": "allow"
+      }
+    },
+    "fix": {
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "xclip *": "allow",
+          "wl-paste *": "allow",
+          "pbpaste *": "allow",
+          "python3 *": "allow",
+          "ruff *": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow",
+        "webfetch": "allow"
+      }
+    },
+    "env": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "Dockerfile": "allow",
+          "docker-compose*.yml": "allow",
+          ".env.example": "allow",
+          ".devcontainer/**": "allow",
+          "pyproject.toml": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "docker *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow"
+      }
+    },
+    "db": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow",
+          "alembic/**": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow",
+          "uv run *": "allow",
+          "alembic *": "allow"
+        },
+        "todowrite": "deny",
+        "question": "allow"
+      }
+    },
+    "scaffold": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "src/**": "allow",
+          "public/**": "allow",
+          "pyproject.toml": "allow",
+          "*.toml": "allow",
+          "*.md": "allow",
+          ".gitignore": "allow",
+          ".python-version": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "uv *": "allow",
+          "ruff *": "allow",
+          "mypy *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "docs": {
+      "permission": {
+        "edit": {
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".ssh/**": "deny",
+          "**/.ssh/**": "deny",
+          "**/secrets/**": "deny",
+          "*": "ask",
+          "docs/**": "allow",
+          "mkdocs.yml": "allow",
+          "*.yml": "allow",
+          "README.md": "allow",
+          "*.md": "allow"
+        },
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "git show*": "allow",
+          "mkdocs *": "allow",
+          "uv run *": "allow"
+        },
+        "todowrite": "allow",
+        "question": "allow"
+      }
+    },
+    "help": {
+      "permission": {
+        "edit": "deny",
+        "todowrite": "deny",
+        "task": "allow",
+        "question": "allow",
+        "webfetch": "allow"
+      }
+    }
+  }
+}
